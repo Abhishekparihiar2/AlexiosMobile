@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import logo from "../assets/alexiobg.png"
 
 interface Props {
   onFinish: () => void
@@ -95,7 +96,7 @@ export default function SplashScreen({ onFinish }: Props) {
       >
         {!imgError ? (
           <img
-            src="/alexiobg.png"
+            src={logo}
             alt="Alexios Logo"
             style={{
               width: "160px",

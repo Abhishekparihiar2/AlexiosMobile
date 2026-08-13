@@ -1,4 +1,5 @@
 import { useState } from "react"
+import logo from "../assets/alexiobg.png"
 
 interface Props {
   onLogin: () => void
@@ -105,7 +106,7 @@ export default function LoginScreen({ onLogin }: Props) {
           }}
         >
           <img
-            src="/alexiobg.png"
+            src={logo}
             alt="Alexios"
             style={{
               width: "120px",

@@ -24,6 +24,8 @@ export default function DashboardScreen({
   onNavigateReports,
 }: Props) {
   const [isClockedIn, setIsClockedIn] = useState(false)
+  const [isOnBreak, setIsOnBreak] = useState(false)
+  const [showClockOutConfirm, setShowClockOutConfirm] = useState(false)
   const [tourState, setTourState] = useState<"pending" | "active">("pending")
   const [now, setNow] = useState(new Date())
 
@@ -92,10 +94,10 @@ export default function DashboardScreen({
                 letterSpacing: "0.15em",
                 textTransform: "uppercase"
               }}>
-                {isClockedIn ? "ACTIVE SHIFT" : "OFF DUTY"}
+                {isClockedIn ? (isOnBreak ? "ON BREAK" : "ACTIVE SHIFT") : "OFF DUTY"}
               </span>
               <span style={{ color: "var(--text-white)", fontSize: "16px", fontWeight: 600, marginTop: "2px", fontFamily: "'Inter', sans-serif" }}>
-                {isClockedIn ? "Officer Michael" : "Start your shift"}
+                {isClockedIn ? (isOnBreak ? "Enjoy your break" : "Officer Michael") : "Start your shift"}
               </span>
             </div>
           </div>
@@ -110,27 +112,65 @@ export default function DashboardScreen({
         </div>
 
         {/* Action Button */}
-        <button
-          onClick={() => setIsClockedIn(!isClockedIn)}
-          style={{
-            width: "100%",
-            padding: "14px",
-            borderRadius: "14px",
-            border: "none",
-            background: isClockedIn
-              ? "rgba(255, 255, 255, 0.05)"
-              : "linear-gradient(135deg, #4DD9E8 0%, #3A7BFF 100%)",
-            color: isClockedIn ? "white" : "#040A14",
-            fontSize: "14px",
-            fontWeight: 700,
-            cursor: "pointer",
-            transition: "all 0.3s ease",
-            zIndex: 1,
-            boxShadow: isClockedIn ? "none" : "0 8px 20px rgba(77,217,232,0.3)"
-          }}
-        >
-          {isClockedIn ? "Clock Out" : "Clock In Now"}
-        </button>
+        {!isClockedIn ? (
+          <button
+            onClick={() => setIsClockedIn(true)}
+            style={{
+              width: "100%",
+              padding: "14px",
+              borderRadius: "14px",
+              border: "none",
+              background: "linear-gradient(135deg, #4DD9E8 0%, #3A7BFF 100%)",
+              color: "#040A14",
+              fontSize: "14px",
+              fontWeight: 700,
+              cursor: "pointer",
+              transition: "all 0.3s ease",
+              zIndex: 1,
+              boxShadow: "0 8px 20px rgba(77,217,232,0.3)"
+            }}
+          >
+            Clock In Now
+          </button>
+        ) : (
+          <div style={{ display: "flex", gap: "12px", width: "100%", zIndex: 1 }}>
+            <button
+              onClick={() => setIsOnBreak(!isOnBreak)}
+              style={{
+                flex: 1,
+                padding: "14px",
+                borderRadius: "14px",
+                border: "1px solid rgba(255,255,255,0.1)",
+                background: isOnBreak ? "var(--blue-primary)" : "rgba(255, 255, 255, 0.05)",
+                color: isOnBreak ? "var(--text-white)" : "var(--text-white)",
+                fontSize: "14px",
+                fontWeight: 700,
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+              }}
+            >
+              {isOnBreak ? "End Break" : "Take Break"}
+            </button>
+            <button
+              onClick={() => setShowClockOutConfirm(true)}
+              style={{
+                flex: 1,
+                padding: "14px",
+                borderRadius: "14px",
+                border: "none",
+                background: "rgba(244,63,94,0.15)",
+                color: "var(--red-danger)",
+                fontSize: "14px",
+                fontWeight: 700,
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+                border: "1px solid rgba(244,63,94,0.3)"
+              }}
+            >
+              Clock Out
+            </button>
+          </div>
+        )}
       </div>
 
       {/* ── Main Module Grid ── */}
@@ -292,6 +332,101 @@ export default function DashboardScreen({
       </div>
 
       <div style={{ height: "100px" }} /> {/* Clear space for global SOS button */}
+
+      {/* ── Clock Out Confirmation Modal ── */}
+      {showClockOutConfirm && (
+        <div style={{
+          position: "fixed",
+          inset: 0,
+          background: "rgba(0,0,0,0.85)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          zIndex: 100,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "16px",
+        }}>
+          <div style={{
+            background: "var(--glass-surface)",
+            border: "1px solid var(--red-danger)",
+            borderRadius: "24px",
+            width: "100%",
+            maxWidth: "340px",
+            padding: "24px",
+            boxShadow: "0 16px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center"
+          }}>
+            <div style={{
+              width: "56px",
+              height: "56px",
+              borderRadius: "50%",
+              background: "rgba(220,38,38,0.1)",
+              border: "1px solid rgba(220,38,38,0.3)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: "16px"
+            }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--red-danger)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+                <line x1="12" y1="2" x2="12" y2="12"></line>
+              </svg>
+            </div>
+            <div style={{ fontFamily: "'Rajdhani', sans-serif", fontSize: "20px", fontWeight: 700, color: "var(--text-white)", letterSpacing: "0.05em", marginBottom: "8px" }}>
+              CONFIRM CLOCK OUT
+            </div>
+            <div style={{ fontFamily: "'Inter', sans-serif", fontSize: "14px", color: "var(--text-50)", marginBottom: "24px", lineHeight: 1.5 }}>
+              Are you sure you want to end your shift? This action will log your departure time.
+            </div>
+
+            <div style={{ display: "flex", gap: "12px", width: "100%" }}>
+              <button
+                onClick={() => setShowClockOutConfirm(false)}
+                style={{
+                  flex: 1,
+                  padding: "12px",
+                  borderRadius: "12px",
+                  border: "1px solid var(--muted-border)",
+                  background: "rgba(255,255,255,0.05)",
+                  color: "var(--text-white)",
+                  fontFamily: "'Inter', sans-serif",
+                  fontWeight: 600,
+                  fontSize: "14px",
+                  cursor: "pointer"
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  setIsClockedIn(false)
+                  setIsOnBreak(false)
+                  setShowClockOutConfirm(false)
+                }}
+                style={{
+                  flex: 1,
+                  padding: "12px",
+                  borderRadius: "12px",
+                  border: "none",
+                  background: "var(--red-danger)",
+                  color: "var(--text-white)",
+                  fontFamily: "'Inter', sans-serif",
+                  fontWeight: 600,
+                  fontSize: "14px",
+                  cursor: "pointer",
+                  boxShadow: "0 4px 12px rgba(220,38,38,0.3)"
+                }}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
