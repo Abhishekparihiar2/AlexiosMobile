@@ -1,0 +1,10 @@
+{
+  "description": "Provides elite security officers with a sleek, real-time dashboard to monitor patrol progress, live event logs, and quick communication tools for efficient site management.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
