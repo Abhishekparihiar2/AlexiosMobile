@@ -58,7 +58,7 @@ export default function Header({ onSOS, onChatClick }: { onSOS?: () => void, onC
         >
           <div style={{ display: "flex", alignItems: "center" }}>
             <img
-              src="/alexios-latest.png"
+              src={`${import.meta.env.BASE_URL}alexios-latest.png`}
               alt="Alexios"
               style={{
                 height: "20px",
