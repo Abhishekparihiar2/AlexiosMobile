@@ -155,39 +155,14 @@ export default function CommsScreen({ onBack }: { onBack: () => void }) {
                 <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
                     <button
                         onClick={onBack}
-                        style={{
-                            width: "36px",
-                            height: "36px",
-                            borderRadius: "10px",
-                            background: "rgba(255,255,255,0.06)",
-                            border: "1px solid rgba(255,255,255,0.1)",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            cursor: "pointer",
-                        }}
+                        style={{ width: "38px", height: "38px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.05)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
                     >
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                            <path
-                                d="M15 18l-6-6 6-6"
-                                stroke="#fff"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            />
-                        </svg>
+                        <svg width="10" height="17" viewBox="0 0 10 17" fill="none"><path d="M8.5 15.5L1.5 8.5L8.5 1.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                     </button>
-                    <div
-                        style={{
-                            fontFamily: "Space Grotesk, sans-serif",
-                            fontWeight: 700,
-                            fontSize: "24px",
-                            color: "#fff",
-                            letterSpacing: "0.01em",
-                        }}
-                    >
-                        Chat
+                    <div style={{ flex: 1, textAlign: "center" }}>
+                        <div style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: "18px", color: "white", letterSpacing: "0.2em", textTransform: "uppercase" }}>CHAT</div>
                     </div>
+                    <div style={{ width: "38px" }} />
                 </div>
 
                 <div
@@ -634,9 +609,9 @@ function ChatScreen({
                 <button
                     onClick={onBack}
                     style={{
-                        width: "36px",
-                        height: "36px",
-                        borderRadius: "10px",
+                        width: "38px",
+                        height: "38px",
+                        borderRadius: "12px",
                         background: "rgba(255,255,255,0.05)",
                         border: "1px solid rgba(255,255,255,0.1)",
                         display: "flex",
@@ -646,15 +621,7 @@ function ChatScreen({
                         flexShrink: 0,
                     }}
                 >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                        <path
-                            d="M15 18l-6-6 6-6"
-                            stroke="#fff"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        />
-                    </svg>
+                    <svg width="10" height="17" viewBox="0 0 10 17" fill="none"><path d="M8.5 15.5L1.5 8.5L8.5 1.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </button>
                 <div
                     style={{

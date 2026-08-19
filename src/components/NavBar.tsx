@@ -45,9 +45,9 @@ export default function NavBar({ activeTab, onNavigate }: Props) {
         }}
       >
         {tabs.map((tab) => {
-          const isActive = activeTab === tab.id || (tab.id === "home" && (activeTab === "tour" || activeTab === "schedule"))
+          const isActive = activeTab === tab.id || (tab.id === "home" && (activeTab === "tour" || activeTab === "schedule" || activeTab === "reports" || activeTab === "forms" || activeTab === "timesheet" || activeTab === "timeoff" || activeTab === "skills" || activeTab === "certifications"))
           return (
-             <button
+            <button
               key={tab.id}
               onClick={() => onNavigate(tab.id as any)}
               style={{

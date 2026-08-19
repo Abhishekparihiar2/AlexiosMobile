@@ -29,7 +29,7 @@ export default function ReportDetailScreen({
                     display: "flex",
                     alignItems: "center",
                     gap: "12px",
-                    padding: "58px 18px 14px",
+                    padding: "8px 16px 16px",
                     borderBottom: "1px solid rgba(255,255,255,0.05)",
                     flexShrink: 0,
                     background: "rgba(10,14,26,0.8)",
@@ -38,51 +38,48 @@ export default function ReportDetailScreen({
                 <button
                     onClick={onBack}
                     style={{
-                        width: "36px",
-                        height: "36px",
-                        borderRadius: "10px",
-                        background: "rgba(255,255,255,0.05)",
+                        width: "38px",
+                        height: "38px",
+                        borderRadius: "12px",
                         border: "1px solid rgba(255,255,255,0.1)",
+                        background: "rgba(255,255,255,0.05)",
+                        cursor: "pointer",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        cursor: "pointer",
                         flexShrink: 0,
                     }}
                 >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                        <path
-                            d="M15 18l-6-6 6-6"
-                            stroke="#fff"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        />
+                    <svg width="10" height="17" viewBox="0 0 10 17" fill="none">
+                        <path d="M8.5 15.5L1.5 8.5L8.5 1.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                 </button>
-                <div style={{ flex: 1 }}>
+                <div style={{ flex: 1, textAlign: "center" }}>
                     <div
                         style={{
-                            fontFamily: "Space Grotesk, sans-serif",
+                            fontFamily: "'Rajdhani', sans-serif",
                             fontWeight: 700,
-                            fontSize: "16px",
-                            color: "#FFFFFF",
-                            letterSpacing: "0.02em",
+                            fontSize: "18px",
+                            color: "white",
+                            letterSpacing: "0.2em",
+                            textTransform: "uppercase"
                         }}
                     >
                         {reportId}
                     </div>
                     <div
                         style={{
-                            fontSize: "11px",
-                            color: "rgba(200,215,255,0.6)",
                             fontFamily: "DM Mono, monospace",
-                            letterSpacing: "0.08em"
+                            fontSize: "9px",
+                            color: "rgba(130,155,200,0.5)",
+                            letterSpacing: "2px",
+                            marginTop: "3px",
                         }}
                     >
                         SUBMISSION DETAIL
                     </div>
                 </div>
+                <div style={{ width: "38px", flexShrink: 0 }} />
             </div>
 
             <div style={{ flex: 1, overflowY: "auto", padding: "16px 20px 100px" }}>

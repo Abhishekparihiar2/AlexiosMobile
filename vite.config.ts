@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react"
 import tailwindcss from "@tailwindcss/vite"
 import path from "node:path"
 
-import siteConfiguration from "./.figma/make/site.json"
+import siteConfiguration from "./.figma/make/site.json" with { type: 'json' }
 
 const isFigmaSandbox = process.env.FIGMA === "1" || process.env.FIGMA === "true"
 
@@ -20,13 +20,13 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": path.resolve(import.meta.dirname, "./src"),
     },
   },
   server: {
     host: "0.0.0.0",
     port: parseInt(process.env.PORT || "8443"),
-    strictPort: true,
+    strictPort: false,
     hmr: isFigmaSandbox ? { clientPort: 443 } : undefined,
     watch: { ignored: ["**/.figma/**"] },
   },

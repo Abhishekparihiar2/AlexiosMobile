@@ -14,6 +14,11 @@ import SiteStatusScreen from "./components/SiteStatusScreen"
 import MapScreen from "./components/MapScreen"
 import ProfileScreen from "./components/ProfileScreen"
 import ReportsScreen from "./components/ReportsScreen"
+import FormsScreen from "./components/FormsScreen"
+import TimesheetScreen from "./components/TimesheetScreen"
+import TimeOffScreen from "./components/TimeOffScreen"
+import SkillsScreen from "./components/SkillsScreen"
+import CertificationsScreen from "./components/CertificationsScreen"
 import TasksScreen from "./components/TasksScreen"
 import CommsScreen from "./components/CommsScreen"
 import DashboardScreen from "./components/DashboardScreen"
@@ -35,10 +40,10 @@ export default function App() {
       | "reports"
       | "tasks"
     >("splash")
-  const [activeTab, setActiveTab] = useState<"home" | "site" | "schedule" | "tour" | "comms" | "settings">("home")
+  const [activeTab, setActiveTab] = useState<"home" | "site" | "schedule" | "tour" | "comms" | "settings" | "profile" | "tasks" | "reports" | "forms" | "timesheet" | "timeoff" | "skills" | "certifications">("home")
   const [sosOpen, setSosOpen] = useState(false)
-  const [activeIncident, setActiveIncident] = useState<{type: string, time: string} | null>(null)
-  const [supervisorAlert, setSupervisorAlert] = useState<{type: string, time: string, officer: string} | null>(null)
+  const [activeIncident, setActiveIncident] = useState<{ type: string, time: string } | null>(null)
+  const [supervisorAlert, setSupervisorAlert] = useState<{ type: string, time: string, officer: string } | null>(null)
 
   return (
     <div
@@ -90,12 +95,6 @@ export default function App() {
         <SiteStatusScreen onBack={() => setScreen("main")} />
       )}
       {screen === "map" && <MapScreen onBack={() => setScreen("main")} />}
-      {screen === "profile" && (
-        <ProfileScreen onBack={() => setScreen("main")} />
-      )}
-      {screen === "reports" && (
-        <ReportsScreen onBack={() => setScreen("main")} />
-      )}
       {screen === "tasks" && (
         <TasksScreen onBack={() => setScreen("main")} />
       )}
@@ -284,7 +283,7 @@ export default function App() {
             }}
           >
             {activeTab === "home" && (
-              <DashboardScreen 
+              <DashboardScreen
                 onSOS={() => setSosOpen(true)}
                 onNavigateSite={() => setActiveTab("site")}
                 onNavigateTour={() => setActiveTab("tour")}
@@ -295,7 +294,12 @@ export default function App() {
                 onNavigateTasks={() => setActiveTab("tasks")}
                 onNavigateMap={() => setScreen("map")}
                 onNavigateSchedule={() => setActiveTab("schedule")}
-                onNavigateReports={() => setScreen("reports")}
+                onNavigateReports={() => setActiveTab("reports")}
+                onNavigateForms={() => setActiveTab("forms")}
+                onNavigateTimesheet={() => setActiveTab("timesheet")}
+                onNavigateTimeOff={() => setActiveTab("timeoff")}
+                onNavigateSkills={() => setActiveTab("skills")}
+                onNavigateCertifications={() => setActiveTab("certifications")}
               />
             )}
             {activeTab === "tour" && (
@@ -313,10 +317,31 @@ export default function App() {
             {activeTab === "comms" && (
               <CommsScreen onBack={() => setActiveTab("home")} />
             )}
+            {activeTab === "reports" && (
+              <ReportsScreen onBack={() => setActiveTab("home")} />
+            )}
+            {activeTab === "forms" && (
+              <FormsScreen onBack={() => setActiveTab("home")} />
+            )}
+            {activeTab === "timesheet" && (
+              <TimesheetScreen onBack={() => setActiveTab("home")} />
+            )}
+            {activeTab === "timeoff" && (
+              <TimeOffScreen onBack={() => setActiveTab("home")} />
+            )}
+            {activeTab === "skills" && (
+              <SkillsScreen onBack={() => setActiveTab("home")} />
+            )}
+            {activeTab === "certifications" && (
+              <CertificationsScreen onBack={() => setActiveTab("home")} />
+            )}
+            {activeTab === "profile" && (
+              <ProfileScreen onBack={() => setActiveTab("settings")} />
+            )}
             {activeTab === "settings" && (
-              <MoreScreen 
-                onNavigateReports={() => setScreen("reports")}
-                onNavigateProfile={() => setScreen("profile")}
+              <MoreScreen
+                onBack={() => setActiveTab("home")}
+                onNavigateProfile={() => setActiveTab("profile")}
               />
             )}
           </div>
@@ -349,7 +374,7 @@ export default function App() {
                     <span style={{ color: "rgba(255,120,120,0.9)", fontFamily: "DM Mono, monospace", fontSize: "14px", fontWeight: 600 }}>DISPATCH NOTIFIED</span>
                     <span style={{ color: "rgba(255,255,255,0.5)", fontFamily: "DM Mono, monospace", fontSize: "12px" }}>Time of Alert: {activeIncident.time}</span>
                   </div>
-                  
+
                   <button onClick={() => { setActiveIncident(null); setSosOpen(false); setSupervisorAlert(null); }} style={{ width: "100%", padding: "20px", borderRadius: "16px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white", fontWeight: 600, fontSize: "16px", cursor: "pointer", transition: "all 0.2s" }}>
                     Resolve & Stand Down
                   </button>
@@ -357,236 +382,236 @@ export default function App() {
               ) : (
                 <>
                   {/* Header */}
-              <div style={{ padding: "0 24px 28px", flexShrink: 0 }}>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                    marginBottom: "10px",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "10px",
-                      height: "10px",
-                      borderRadius: "50%",
-                      flexShrink: 0,
-                      background: "#FF3030",
-                      boxShadow: "0 0 10px #FF3030",
-                      animation: "pulse-dot 1s ease-in-out infinite",
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontFamily: "DM Mono, monospace",
-                      fontSize: "10px",
-                      fontWeight: 700,
-                      color: "#FF3030",
-                      letterSpacing: "0.14em",
-                    }}
-                  >
-                    SOS ACTIVATED
-                  </span>
-                </div>
-                <div
-                  style={{
-                    fontSize: "22px",
-                    fontWeight: 700,
-                    color: "#FFFFFF",
-                    letterSpacing: "-0.3px",
-                    lineHeight: 1.2,
-                  }}
-                >
-                  Select your situation
-                </div>
-                <div
-                  style={{
-                    marginTop: "6px",
-                    fontFamily: "DM Mono, monospace",
-                    fontSize: "11px",
-                    color: "rgba(255,120,120,0.7)",
-                    letterSpacing: "0.02em",
-                  }}
-                >
-                  Your supervisor will be notified immediately
-                </div>
-              </div>
-
-              {/* Action buttons */}
-              <div
-                style={{
-                  flex: 1,
-                  padding: "0 20px",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "12px",
-                }}
-              >
-                {[
-                  {
-                    icon: (
-                      <svg
-                        width="22"
-                        height="22"
-                        viewBox="0 0 22 22"
-                        fill="none"
-                      >
-                        <path
-                          d="M11 3v8M11 14v1"
-                          stroke="#FF3030"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                        />
-                        <circle
-                          cx="11"
-                          cy="11"
-                          r="9.5"
-                          stroke="#FF3030"
-                          strokeWidth="1.5"
-                        />
-                      </svg>
-                    ),
-                    label: "Responding to Incident",
-                    sub: "Signal active response",
-                  },
-                  {
-                    icon: (
-                      <svg
-                        width="22"
-                        height="22"
-                        viewBox="0 0 22 22"
-                        fill="none"
-                      >
-                        <path
-                          d="M11 4C7.13 4 4 7.13 4 11s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7Z"
-                          stroke="#FF3030"
-                          strokeWidth="1.5"
-                        />
-                        <path
-                          d="M8 11h6M11 8v6"
-                          stroke="#FF3030"
-                          strokeWidth="1.8"
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                    ),
-                    label: "Need Immediate Backup",
-                    sub: "Request officer support",
-                  },
-                  {
-                    icon: (
-                      <svg
-                        width="22"
-                        height="22"
-                        viewBox="0 0 22 22"
-                        fill="none"
-                      >
-                        <path
-                          d="M3 11h2M17 11h2M11 3v2M11 17v2"
-                          stroke="#FF3030"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                        />
-                        <circle
-                          cx="11"
-                          cy="11"
-                          r="5"
-                          stroke="#FF3030"
-                          strokeWidth="1.5"
-                        />
-                        <path
-                          d="M7 7l1.5 1.5M13.5 13.5L15 15M7 15l1.5-1.5M13.5 8.5L15 7"
-                          stroke="#FF3030"
-                          strokeWidth="1.2"
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                    ),
-                    label: "Need Law Enforcement",
-                    sub: "Dispatch police / EMS",
-                  },
-                ].map((btn, i) => (
-                  <button
-                    key={i}
-                    onClick={() => {
-                      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                      setActiveIncident({ type: btn.label, time })
-                      setSupervisorAlert({ type: btn.label, time, officer: "Officer Michael" })
-                    }}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "16px",
-                      padding: "20px 18px",
-                      borderRadius: "14px",
-                      cursor: "pointer",
-                      background: "rgba(255,40,40,0.07)",
-                      border: "1px solid rgba(255,40,40,0.32)",
-                      textAlign: "left",
-                    }}
-                  >
+                  <div style={{ padding: "0 24px 28px", flexShrink: 0 }}>
                     <div
                       style={{
-                        width: "44px",
-                        height: "44px",
-                        borderRadius: "12px",
-                        flexShrink: 0,
-                        background: "rgba(255,40,40,0.1)",
-                        border: "1px solid rgba(255,40,40,0.25)",
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "center",
+                        gap: "10px",
+                        marginBottom: "10px",
                       }}
                     >
-                      {btn.icon}
-                    </div>
-                    <div>
                       <div
                         style={{
-                          fontSize: "15px",
-                          fontWeight: 600,
-                          color: "#FF3030",
-                          letterSpacing: "-0.1px",
+                          width: "10px",
+                          height: "10px",
+                          borderRadius: "50%",
+                          flexShrink: 0,
+                          background: "#FF3030",
+                          boxShadow: "0 0 10px #FF3030",
+                          animation: "pulse-dot 1s ease-in-out infinite",
                         }}
-                      >
-                        {btn.label}
-                      </div>
-                      <div
+                      />
+                      <span
                         style={{
                           fontFamily: "DM Mono, monospace",
-                          fontSize: "10.5px",
-                          color: "rgba(255,120,120,0.65)",
-                          marginTop: "3px",
+                          fontSize: "10px",
+                          fontWeight: 700,
+                          color: "#FF3030",
+                          letterSpacing: "0.14em",
                         }}
                       >
-                        {btn.sub}
-                      </div>
+                        SOS ACTIVATED
+                      </span>
                     </div>
-                  </button>
-                ))}
-              </div>
+                    <div
+                      style={{
+                        fontSize: "22px",
+                        fontWeight: 700,
+                        color: "#FFFFFF",
+                        letterSpacing: "-0.3px",
+                        lineHeight: 1.2,
+                      }}
+                    >
+                      Select your situation
+                    </div>
+                    <div
+                      style={{
+                        marginTop: "6px",
+                        fontFamily: "DM Mono, monospace",
+                        fontSize: "11px",
+                        color: "rgba(255,120,120,0.7)",
+                        letterSpacing: "0.02em",
+                      }}
+                    >
+                      Your supervisor will be notified immediately
+                    </div>
+                  </div>
 
-              {/* Close button */}
-              <div style={{ padding: "24px 20px 36px", flexShrink: 0 }}>
-                <button
-                  onClick={() => setSosOpen(false)}
-                  style={{
-                    width: "100%",
-                    padding: "18px",
-                    borderRadius: "14px",
-                    cursor: "pointer",
-                    background: "rgba(85,153,255,0.08)",
-                    border: "1px solid rgba(85,153,255,0.3)",
-                    fontSize: "15px",
-                    fontWeight: 600,
-                    color: "#5599FF",
-                    letterSpacing: "-0.1px",
-                  }}
-                >
-                  Cancel — Close SOS
-                </button>
-              </div>
+                  {/* Action buttons */}
+                  <div
+                    style={{
+                      flex: 1,
+                      padding: "0 20px",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "12px",
+                    }}
+                  >
+                    {[
+                      {
+                        icon: (
+                          <svg
+                            width="22"
+                            height="22"
+                            viewBox="0 0 22 22"
+                            fill="none"
+                          >
+                            <path
+                              d="M11 3v8M11 14v1"
+                              stroke="#FF3030"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                            />
+                            <circle
+                              cx="11"
+                              cy="11"
+                              r="9.5"
+                              stroke="#FF3030"
+                              strokeWidth="1.5"
+                            />
+                          </svg>
+                        ),
+                        label: "Responding to Incident",
+                        sub: "Signal active response",
+                      },
+                      {
+                        icon: (
+                          <svg
+                            width="22"
+                            height="22"
+                            viewBox="0 0 22 22"
+                            fill="none"
+                          >
+                            <path
+                              d="M11 4C7.13 4 4 7.13 4 11s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7Z"
+                              stroke="#FF3030"
+                              strokeWidth="1.5"
+                            />
+                            <path
+                              d="M8 11h6M11 8v6"
+                              stroke="#FF3030"
+                              strokeWidth="1.8"
+                              strokeLinecap="round"
+                            />
+                          </svg>
+                        ),
+                        label: "Need Immediate Backup",
+                        sub: "Request officer support",
+                      },
+                      {
+                        icon: (
+                          <svg
+                            width="22"
+                            height="22"
+                            viewBox="0 0 22 22"
+                            fill="none"
+                          >
+                            <path
+                              d="M3 11h2M17 11h2M11 3v2M11 17v2"
+                              stroke="#FF3030"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                            />
+                            <circle
+                              cx="11"
+                              cy="11"
+                              r="5"
+                              stroke="#FF3030"
+                              strokeWidth="1.5"
+                            />
+                            <path
+                              d="M7 7l1.5 1.5M13.5 13.5L15 15M7 15l1.5-1.5M13.5 8.5L15 7"
+                              stroke="#FF3030"
+                              strokeWidth="1.2"
+                              strokeLinecap="round"
+                            />
+                          </svg>
+                        ),
+                        label: "Need Law Enforcement",
+                        sub: "Dispatch police / EMS",
+                      },
+                    ].map((btn, i) => (
+                      <button
+                        key={i}
+                        onClick={() => {
+                          const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                          setActiveIncident({ type: btn.label, time })
+                          setSupervisorAlert({ type: btn.label, time, officer: "Officer Michael" })
+                        }}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "16px",
+                          padding: "20px 18px",
+                          borderRadius: "14px",
+                          cursor: "pointer",
+                          background: "rgba(255,40,40,0.07)",
+                          border: "1px solid rgba(255,40,40,0.32)",
+                          textAlign: "left",
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: "44px",
+                            height: "44px",
+                            borderRadius: "12px",
+                            flexShrink: 0,
+                            background: "rgba(255,40,40,0.1)",
+                            border: "1px solid rgba(255,40,40,0.25)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          {btn.icon}
+                        </div>
+                        <div>
+                          <div
+                            style={{
+                              fontSize: "15px",
+                              fontWeight: 600,
+                              color: "#FF3030",
+                              letterSpacing: "-0.1px",
+                            }}
+                          >
+                            {btn.label}
+                          </div>
+                          <div
+                            style={{
+                              fontFamily: "DM Mono, monospace",
+                              fontSize: "10.5px",
+                              color: "rgba(255,120,120,0.65)",
+                              marginTop: "3px",
+                            }}
+                          >
+                            {btn.sub}
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Close button */}
+                  <div style={{ padding: "24px 20px 36px", flexShrink: 0 }}>
+                    <button
+                      onClick={() => setSosOpen(false)}
+                      style={{
+                        width: "100%",
+                        padding: "18px",
+                        borderRadius: "14px",
+                        cursor: "pointer",
+                        background: "rgba(85,153,255,0.08)",
+                        border: "1px solid rgba(85,153,255,0.3)",
+                        fontSize: "15px",
+                        fontWeight: 600,
+                        color: "#5599FF",
+                        letterSpacing: "-0.1px",
+                      }}
+                    >
+                      Cancel — Close SOS
+                    </button>
+                  </div>
                 </>
               )}
             </div>
@@ -595,7 +620,7 @@ export default function App() {
 
 
           {/* ── Global Floating SOS Button ── */}
-          <div 
+          <div
             onClick={() => setSosOpen(true)}
             style={{
               position: "absolute",
@@ -653,7 +678,7 @@ export default function App() {
               />
             </div>
           </div>
-          
+
           {/* ── Supervisor Portal Alert Simulation ── */}
           {supervisorAlert && (
             <div style={{
@@ -697,17 +722,17 @@ export default function App() {
                   </div>
                 </div>
               </div>
-              <button 
-                onClick={() => setSupervisorAlert(null)} 
-                style={{ 
-                  padding: "16px", 
-                  borderRadius: "12px", 
-                  background: "#FF3030", 
-                  color: "white", 
-                  fontWeight: 700, 
+              <button
+                onClick={() => setSupervisorAlert(null)}
+                style={{
+                  padding: "16px",
+                  borderRadius: "12px",
+                  background: "#FF3030",
+                  color: "white",
+                  fontWeight: 700,
                   fontSize: "15px",
-                  border: "none", 
-                  cursor: "pointer", 
+                  border: "none",
+                  cursor: "pointer",
                   marginTop: "4px",
                   boxShadow: "0 4px 15px rgba(255,48,48,0.3)"
                 }}
