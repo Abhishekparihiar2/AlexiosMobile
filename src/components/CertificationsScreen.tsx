@@ -37,8 +37,15 @@ const CERTS_DATA = [
     }
 ]
 
+import CertificationDetailScreen from "./CertificationDetailScreen"
+
 export default function CertificationsScreen({ onBack }: Props) {
     const [search, setSearch] = useState("")
+    const [selectedCert, setSelectedCert] = useState<any>(null)
+
+    if (selectedCert) {
+        return <CertificationDetailScreen cert={selectedCert} onBack={() => setSelectedCert(null)} />
+    }
 
     return (
         <div
@@ -182,10 +189,14 @@ export default function CertificationsScreen({ onBack }: Props) {
             {/* List */}
             <div style={{ padding: "8px 16px", display: "flex", flexDirection: "column", gap: "12px" }}>
                 {CERTS_DATA.map((cert) => (
-                    <div key={cert.id} style={{
-                        background: "rgba(30,35,50,0.4)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: "16px", padding: "16px",
-                        display: "flex", flexDirection: "column", gap: "12px"
-                    }}>
+                    <div
+                        key={cert.id}
+                        onClick={() => setSelectedCert(cert)}
+                        style={{
+                            background: "rgba(30,35,50,0.4)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: "16px", padding: "16px",
+                            display: "flex", flexDirection: "column", gap: "12px", cursor: "pointer"
+                        }}
+                    >
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                             <div>
                                 <div style={{ color: "white", fontSize: "15px", fontWeight: 700, fontFamily: "Inter, sans-serif", letterSpacing: "-0.2px" }}>
@@ -208,43 +219,9 @@ export default function CertificationsScreen({ onBack }: Props) {
                             </div>
                         </div>
 
-                        <div style={{ height: "1px", background: "rgba(255,255,255,0.05)" }} />
-
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                            <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(100,150,255,0.8)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle>
-                                </svg>
-                                <span style={{ color: "rgba(100,150,255,0.9)", fontSize: "14px", fontWeight: 700, fontFamily: "DM Mono, monospace", marginLeft: "4px" }}>
-                                    {cert.employees}
-                                </span>
-                                <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", fontFamily: "Inter, sans-serif", marginLeft: "4px" }}>
-                                    EMPLOYEES
-                                </span>
-                            </div>
-                            <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(100,150,255,0.8)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
-                                </svg>
-                                <span style={{ color: "rgba(100,150,255,0.9)", fontSize: "14px", fontWeight: 700, fontFamily: "DM Mono, monospace", marginLeft: "4px" }}>
-                                    {cert.positions}
-                                </span>
-                                <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", fontFamily: "Inter, sans-serif", marginLeft: "4px" }}>
-                                    POSITIONS
-                                </span>
-                            </div>
-                        </div>
                     </div>
                 ))}
 
-                <button style={{
-                    marginTop: "12px", background: "linear-gradient(135deg, rgba(16,185,129,0.15) 0%, rgba(16,185,129,0.05) 100%)",
-                    border: "1px solid rgba(16,185,129,0.3)", borderRadius: "16px", padding: "16px",
-                    display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
-                    color: "#10B981", fontSize: "14px", fontWeight: 600, fontFamily: "Inter, sans-serif", cursor: "pointer", transition: "all 0.2s"
-                }}>
-                    + ADD NEW CERTIFICATION
-                </button>
             </div>
 
         </div>
